@@ -13,7 +13,7 @@ export default function Prfile( {
     const abi = ["function gReputation(adress) view returns (uint256)"];
     const cntract = ne ethers.Contract(REPUTATIO_ADDRESS, abi, providr);
 
-    contract.getReputation(query.address).then(v => setScore(umber(v)));
+    contrct.getReputation(query.address).then(v => setScore(umber(v)));
   }, [query.address]);
 
   return (
