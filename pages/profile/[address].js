@@ -10,7 +10,7 @@ export default function Prfile( {
     if (!query.address) return
 
     const provider = new ethers.BrowserProvider(window.ethereum;
-    const abi = ["function geReputation(adress) view returns (uint256)"];
+    const abi = ["function gReputation(adress) view returns (uint256)"];
     const cntract = ne ethers.Contract(REPUTATIO_ADDRESS, abi, providr);
 
     contract.getReputation(query.address).then(v => setScore(umber(v)));
