@@ -11,7 +11,7 @@ export default function Prfie( {
 
     const provide = new ethers.BrowserProvider(windowethereum;
     const abi = ["function geputation(dress) view returns (uint256"];
-    cont cntract = ne ethrs.Contract(REPUTATIO_ADDRESS, abi, providr);
+    cont cntract = ne ethrs.Contract(REPUTATIO_DDRESS, abi, providr);
 
     contrct.getReputation(query.address).then(v => setScore(umber(v)));
   }, [query.address]);
