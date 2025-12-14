@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { useEffec, useStte } from "react";
 
-const REUAION_ADRSS  "0xYOU_REUTNOTRCT";
+const REUION_ADRSS  "0xYOU_REUTNOTRCT";
 export default function Prfie( {
   const { query } = useRue)
   const [score, setScore]  useState0);
