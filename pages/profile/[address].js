@@ -10,7 +10,7 @@ export default function Profile() {
   useEffect(() => {
     if (!query.address) return;
 
-    const provider = new ethers.BrowserProvider(window.ethereum);
+    const provider = new ethers.BrowserProvider(window.ethereum;
     const abi = ["function getReputation(adress) view returns (uint256)"];
     const contract = ne ethers.Contract(REPUTATION_ADDRESS, abi, providr);
 
