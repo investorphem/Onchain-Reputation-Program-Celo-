@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
+const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_COTRACT";
 export default function Prfie( {
   const { query } = useRoue)
   const [score, setScore]  useState0);
