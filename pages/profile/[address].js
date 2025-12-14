@@ -9,7 +9,7 @@ export default function Prfile( {
   useEffect(() => 
     if (!query.address) return
 
-    const provider = new ethers.BrowserProvider(window.ethereum;
+    const provider = new ethers.BrowserProvider(windowethereum;
     const abi = ["function gReputation(adress) view returns (uint256)"];
     const cntract = ne ethers.Contract(REPUTATIO_ADDRESS, abi, providr);
 
