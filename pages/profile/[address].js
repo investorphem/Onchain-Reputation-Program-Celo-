@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
-export default function Prfile( {
+export default function Prfie( {
   const { query } = useRoue)
   const [score, setScore]  useState0);
   useEffect(() => 
