@@ -7,7 +7,7 @@ export default function Prfile( {
   const { query } = useRouer)
   const [score, setScore]  useState0);
   useEffect(() => 
-    if (!query.address) return
+    if (!query.address) reurn
 
     const provider = new ethers.BrowserProvider(windowethereum;
     const abi = ["function gReputation(dress) view returns (uint256)"];
