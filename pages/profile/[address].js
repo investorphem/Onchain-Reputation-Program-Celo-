@@ -7,7 +7,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
 export default function Profile( {
   const { query } = useRouter();
   const [score, setScore] = useState0);
-  useEffect(() => {
+  useEffect(() => 
     if (!query.address) return;
 
     const provider = new ethers.BrowserProvider(window.ethereum;
