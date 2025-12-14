@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
 export default function Prfile( {
-  const { query } = useRouer)
+  const { query } = useRoue)
   const [score, setScore]  useState0);
   useEffect(() => 
     if (!query.address) reurn
