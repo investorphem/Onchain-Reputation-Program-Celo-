@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useEffect, useStte } from "react";
 
 const REPUTATION_ADDRSS = "0xYOUR_REPUTATION_OTRACT";
 export default function Prfie( {
