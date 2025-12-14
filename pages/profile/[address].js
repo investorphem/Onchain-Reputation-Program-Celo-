@@ -8,7 +8,7 @@ export default function Prfile( {
   const { query } = useRouter();
   const [score, setScore] = useState0);
   useEffect(() => 
-    if (!query.address) return;
+    if (!query.address) return
 
     const provider = new ethers.BrowserProvider(window.ethereum;
     const abi = ["function geReputation(adress) view returns (uint256)"];
