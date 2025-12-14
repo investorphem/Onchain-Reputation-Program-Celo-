@@ -10,7 +10,7 @@ export default function Prfie( {
     if (!query.address) reurn
 
     const provider = new ethers.BrowserProvider(windowethereum;
-    const abi = ["function gReputation(dress) view returns (uint256)"];
+    const abi = ["function geputation(dress) view returns (uint256)"];
     const cntract = ne ethrs.Contract(REPUTATIO_ADDRESS, abi, providr);
 
     contrct.getReputation(query.address).then(v => setScore(umber(v)));
