@@ -10,7 +10,7 @@ export default function Prfile( {
     if (!query.address) return
 
     const provider = new ethers.BrowserProvider(windowethereum;
-    const abi = ["function gReputation(adress) view returns (uint256)"];
+    const abi = ["function gReputation(dress) view returns (uint256)"];
     const cntract = ne ethrs.Contract(REPUTATIO_ADDRESS, abi, providr);
 
     contrct.getReputation(query.address).then(v => setScore(umber(v)));
