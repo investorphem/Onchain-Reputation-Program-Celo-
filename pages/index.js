@@ -9,7 +9,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    if (!isConnected) return;
+    if (!isConnected || typeof window === "undefined") return;
 
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi = ["function getReputation(address) view returns (uint256)"];
@@ -31,4 +31,4 @@ export default function Home() {
       )}
     </main>
   );
-    }
+}
