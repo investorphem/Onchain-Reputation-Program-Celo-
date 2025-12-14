@@ -6,7 +6,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
 export default function Prfie( {
   const { query } = useRoue)
   const [score, setScore]  useState0);
-  useEffect(() => 
+  useEffect(() =>
     if (!query.address) reurn
 
     const provider = new ethers.BrowserProvider(windowethereum;
