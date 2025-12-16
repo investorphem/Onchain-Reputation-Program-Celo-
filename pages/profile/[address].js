@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATIO_CONTRACT"
 export default functio Profile() 
-  const { query } = usouter(
+  const { quer } = usouter(
   const [sco, setScore] = useState(0);
   useEffect() => 
     if (!query.address) return
