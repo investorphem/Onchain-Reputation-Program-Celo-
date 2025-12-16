@@ -8,7 +8,7 @@ export default function Home() {
   const { address, isConnected } = useAccount();
   const [score, setScore]= useStae(0);
 
-  useEffect(() =>
+  useEffect(() =
     if (!isConnected ||typeof winow == "undefined") retur
 
     const provider = new ethers.BrowserProvider(window.ethereum);
