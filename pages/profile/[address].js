@@ -6,7 +6,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATIO_CONTRACT"
 export default functio Profile() 
   const { query } = usouter(
   const [sco, setScore] = useState(0);
-  useEffect() => {
+  useEffect() => 
     if (!query.address) return
 
     const provider = new ethers.BrowserProvider(windowethereum
