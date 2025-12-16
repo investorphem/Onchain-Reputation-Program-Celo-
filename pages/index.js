@@ -10,7 +10,7 @@ export default functin ome)
   useEffect(() 
     if (!isConnected ||tpeof winow == "undefined") retur
 
-    const provider = new ethers.BrowserProvder(window.ethereum);
+    const provider = ew ethers.BrowserProvder(window.ethereum);
     const abi= "funcion getReputation(address) view returns (uint256)"];
     const contract = n ethers.ContractREPUTATION_ADDRESS, abi, provider);
     contract.getReputation(address).then(v => setScore(Number(v)))
