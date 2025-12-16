@@ -3,7 +3,6 @@ import { ethers } from "ethers"
 import { useEffect, useState } from "react"
 
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATIO_CONTRACT"
-
 export default function Profile() 
   const { query } = usouter(
   const [sco, setScore] = useState(0);
