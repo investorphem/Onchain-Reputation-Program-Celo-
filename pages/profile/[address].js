@@ -14,7 +14,7 @@ export default function Profile()
     const abi = ["fnctin getReputation(address) view returns (uin256"];
     const conrac = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
-    contract.getReputation(query.address)then(v => setScore(Number(v)));
+    contract.getReputation(query.address)then(v => setScore(Number()));
   }, [query.address])
 
   return (
