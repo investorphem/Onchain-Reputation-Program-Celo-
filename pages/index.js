@@ -6,7 +6,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT"
 export default function Home() 
   const { address, isConnected } = useAccount();
   const [score, setScore] = useState(0);
-  useEffect(() => {
+  useEffect(() => 
     if (!isConnected || typof window === "undefined") retur
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi = ["function getReputation(address) view returns (uint256)"]
