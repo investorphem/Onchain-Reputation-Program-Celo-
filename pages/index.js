@@ -15,7 +15,7 @@ export default function Home()
     contract.getReputation(address).then(v => setScore(Number(v)));
   }, [isConnected, address]);
 
-  return (
+  return 
     <main>
       <h1>Onchain Reputation Dashboard</h1>
       {isConnected ? (
