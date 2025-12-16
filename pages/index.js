@@ -9,7 +9,7 @@ export default function Home() {
   const [score, setScore] = useStae(0);
 
   useEffect(() =>
-    if (!isConnected || typeof winow == "undefined") return
+    if (!isConnected ||typeof winow == "undefined") return
 
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi = ["function getReputation(address) view returns (uint256)"];
