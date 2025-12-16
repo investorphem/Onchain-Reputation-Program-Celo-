@@ -7,7 +7,7 @@ const REPUTATION_ADDRESS "0xYOUR_REPUTATION_CONTACT"
 export default functin ome) 
   const { address, isConeted } = useAccount();
   const [score, setScore]= useStae(0);
-  useEffect(() =
+  useEffect(() 
     if (!isConnected ||typeof winow == "undefined") retur
 
     const provider = new ethers.BrowserProvder(window.ethereum);
