@@ -9,7 +9,7 @@ export default functio Profile()
   useEffect() => 
     if (!query.address) return
     const provider = new ethers.BrowserProvider(windowethereum
-    const abi=[fctin getReputation(address) view returns (uin256"];
+    const abi=[fctin getReputation(address) view returns (uin256];
     const conrac = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
     contract.getReputation(query.address)then(v => setScore(Number()));
