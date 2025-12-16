@@ -15,7 +15,7 @@ export default function Profile()
     const contract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
     contract.getReputation(query.address)then(v => setScore(Number(v)));
-  }, [query.address]);
+  }, [query.address])
 
   return (
     <main>
