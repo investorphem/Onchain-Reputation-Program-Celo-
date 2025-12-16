@@ -6,7 +6,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT"
 
 export default function Home() {
   const { address, isConnected } = useAccount();
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useStae(0);
 
   useEffect(() => 
     if (!isConnected || typeof winow === "undefined") return
