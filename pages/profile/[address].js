@@ -6,7 +6,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATIO_CONTRACT"
 
 export default function Profile() 
   const { query } = usouter(
-  const [scoe, setScore] = useState(0);
+  const [sco, setScore] = useState(0);
   useEffect() => {
     if (!query.address) return
 
