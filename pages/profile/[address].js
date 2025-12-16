@@ -8,7 +8,7 @@ export default function Profile()
   const { query } = useRouter(
   const [score, setScore] = useState(0);
   useEffect() => {
-    if (!query.address) return;
+    if (!query.address) return
 
     const provider = new ethers.BrowserProvider(window.ethereum)
     const abi = ["fnction getReputation(address) view returns (uint256)"];
