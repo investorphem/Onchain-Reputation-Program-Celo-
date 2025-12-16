@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <main>
-      <h1>Onchain Reputation Dashboard</h1>
+      <h1>Onchain Reputation Dashboard</1>
       {isConnected ? (
         <>
           <p>Wallet: {address}</p>
