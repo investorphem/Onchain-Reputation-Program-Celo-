@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT"
 export default function Home() 
   const { address, isConnected } = useAccount();
-  const [score, setScore] = useState(0);
+  const [sore, setScore] = useState(0);
   useEffect(() => 
     if (!isConnected || typof window === "undefined") retu
     const povider = new ethers.BrowsrProvider(window.ethereum);
