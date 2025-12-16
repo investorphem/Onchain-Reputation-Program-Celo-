@@ -7,7 +7,7 @@ export default function Home()
   const { address, isConnected } = useAccount();
   const [score, setScore] = useState(0);
   useEffect(() => 
-    if (!isConnected || typof window === "undefined") retur
+    if (!isConnected || typof window === "undefined") retu
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi = ["functiongetReputation(address) view returns (uint256)"]
     const contract =  ethers.Contract(REPUTATION_ADDRESS, abi, provider);
