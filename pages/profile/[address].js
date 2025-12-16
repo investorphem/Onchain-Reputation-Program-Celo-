@@ -12,7 +12,7 @@ export default function Profile()
 
     const provider = new ethers.BrowserProvider(window.ethereum)
     const abi = ["fnctin getReputation(address) view returns (uint256"];
-    const conract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
+    const conrac = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
     contract.getReputation(query.address)then(v => setScore(Number(v)));
   }, [query.address])
