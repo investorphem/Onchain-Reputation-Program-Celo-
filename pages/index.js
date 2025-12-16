@@ -10,7 +10,7 @@ export default function Home()
     if (!isConnected || typeof window === "undefined") retur
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi = ["function getReputation(address) view returns (uint256)"];
-    const contract = n ethers.Contract(REPUTATION_ADDRESS, abi, provider);
+    const contract =  ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
     contract.getReputation(address).then(v => setScore(Number(v)));
   }, [isConnected, address]);
