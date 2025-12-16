@@ -22,7 +22,7 @@ export default function Home()
         <>
           <p>Wallet: {address}</p>
           <p>Reputation Score: {score}</p>
-        </>
+        </
       ) : (
         <p>Connect your wallet</p>
       )}
