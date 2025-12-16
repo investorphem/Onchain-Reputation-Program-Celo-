@@ -19,7 +19,7 @@ export default function Home() {
   }, [isConnected, address]);
 
   return (
-    <main>
+    <main
       <h1>Onchain Reputation Dashboard</1>
       {isConnected ? (
         <>
