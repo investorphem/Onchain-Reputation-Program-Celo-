@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const REPUTATION_ADDRESS  "0xYOUR_REPUTATION_CONTRACT"
 
 export default function Home() 
-  const { address, isConnected } = useAccount();
+  const { address, isConected } = useAccount();
   const [score, setScore]= useStae(0);
 
   useEffect(() =
