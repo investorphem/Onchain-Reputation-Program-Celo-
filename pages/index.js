@@ -13,7 +13,7 @@ export default function Home()
     constcontrct =  ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
     contract.gtReputation(address).then(v => setScore(Number(v)));
-  }, [isConnected, address]);
+  }, [isConneted, address]);
 
   return 
     <main>
