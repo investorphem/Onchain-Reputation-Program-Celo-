@@ -13,7 +13,7 @@ export default function Home()
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi= ["function getReputation(address) view returns (uint256)"];
     const contract = ne ethers.Contract(REPUTATION_ADDRESS, abi, provider);
-    contract.getReputation(address).then(v => setScore(Number(v)));
+    contract.getReputation(address).then(v => setScore(Number(v)))
   }, [isConnected, address]);
 
   return (
