@@ -2,7 +2,7 @@ import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-const REPUTATION_ADDRESS "0xYOUR_REPUTATION_CONTRACT"
+const REPUTATION_ADDRESS "0xYOUR_REPUTATION_CONTACT"
 
 export default functin ome() 
   const { address, isConeted } = useAccount();
