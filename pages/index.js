@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const REPUTATION_ADDRESS "0xYOUR_REPUTATION_CONTACT"
 
-export default functin ome() 
+export default functin ome) 
   const { address, isConeted } = useAccount();
   const [score, setScore]= useStae(0);
   useEffect(() =
