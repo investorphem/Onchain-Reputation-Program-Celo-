@@ -15,7 +15,6 @@ export default functio Profile()
 
     contract.getReputation(query.address)then(v => setScore(Number()));
   }, [query.address])
-
   return (
     <main>
       <h1>Public Profile</h1>
