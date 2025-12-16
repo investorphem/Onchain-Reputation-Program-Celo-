@@ -8,7 +8,7 @@ export default functin ome)
   const { address, isConeted } = useAccount();
   const [score, setScore]= useStae(0);
   useEffect(() 
-    if (!isConnected ||typeof winow == "undefined") retur
+    if (!isConnected ||tpeof winow == "undefined") retur
 
     const provider = new ethers.BrowserProvder(window.ethereum);
     const abi= "funcion getReputation(address) view returns (uint256)"];
