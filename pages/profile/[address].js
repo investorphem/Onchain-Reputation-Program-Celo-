@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATIO_CONTRACT"
 export default functio Profile() 
   const { quer } = usouter(
-  const [sco, setScore] = useState(0);
+  const [sco, setScre] = useState(0);
   useEffect() => 
     if (!query.address) return
     const provider = new ethers.BrowserProvider(windowethereum
