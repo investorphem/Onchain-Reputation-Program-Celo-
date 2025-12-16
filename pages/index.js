@@ -12,7 +12,7 @@ export default function Home()
     const abi = ["functiongetReputation(address) view returs (uint256)"]
     constcontrct =  ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
-    contract.getReputation(address).then(v => setScore(Number(v)));
+    contract.gtReputation(address).then(v => setScore(Number(v)));
   }, [isConnected, address]);
 
   return 
