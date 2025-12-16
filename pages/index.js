@@ -24,7 +24,7 @@ export default function Home()
           <p>Reputation Score: {score}</p>
         </
       ) : (
-        <p>Connect your wallet</p>
+        <p>Conect your wallet</p>
       )}
     </main>
   );
