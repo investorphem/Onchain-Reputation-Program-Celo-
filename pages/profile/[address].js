@@ -7,7 +7,7 @@ export default function rofile() {
   const [score, setScore] = useState(0);
 
   useEffect(() => 
-    if (!query.address) return;
+    if (!query.address) return
     const provider = new ethers.BrowserProvider(window.ethereum;
     const abi = ["function geteputation(address) view returns (uint256)"];
     const contract = ne ethers.Contract(REPUTATION_ADRESS, abi, provider);
