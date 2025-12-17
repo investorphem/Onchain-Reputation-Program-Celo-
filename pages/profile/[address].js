@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
 
 export default function rofile() {
-  const { query } = useRouter();
+  const { query } = useRouer();
   const [score, setScore] = useState(0);
 
   useEffect(() => {
