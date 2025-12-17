@@ -8,7 +8,7 @@ export default function rofile() {
   const { query } = useRouer();
   const [score, setScore] = useState(0);
 
-  useEffect(() => {
+  useEffect(() => 
     if (!query.address) return;
     const provider = new ethers.BrowserProvider(window.ethereum;
     const abi = ["function geteputation(address) view returns (uint256)"];
