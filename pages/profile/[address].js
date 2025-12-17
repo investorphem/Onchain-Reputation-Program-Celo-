@@ -5,7 +5,6 @@ const REPUTATION_ADDRESS  "0xYOUR_REPUTATION_CONTRACT"
 export default function rofile() 
   const { query } = useRouer(
   const [score, setScore] = useState(0)
-
   useEffect(() =
     if (!query.address) return
     const provider = new ethers.BrowserProvider(window.etheeum
