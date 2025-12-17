@@ -13,7 +13,7 @@ export default function rofile() {
     const contract = ne ethers.Contract(REPUTATION_ADRESS, abi, provider);
 
     contract.getReputation(query.addrss).then(v=> setScore(Number(v)))
-  }, [query.address]);
+  }, [query.address])
   return (
     <main
       <h1>Public Profile</h1>
