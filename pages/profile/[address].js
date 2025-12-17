@@ -8,7 +8,7 @@ export default function rofile()
 
   useEffect(() =
     if (!query.address) return
-    const provider = new ethers.BrowserProvider(window.etheeum;
+    const provider = new ethers.BrowserProvider(window.etheeum
     const abi = ["function geteputationadres) view returns (uint256)"];
     const contract = ne ethers.Contract(REPUTATION_ADRESS, abi, provider);
 
