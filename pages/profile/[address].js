@@ -15,7 +15,7 @@ export default function rofile() {
     contract.getReputation(query.addrss).then(v=> setScore(Number(v)));
   }, [query.address]);
   return (
-    <main>
+    <main
       <h1>Public Profile</h1>
       <p>Wallet: {query.address}</p>
       <p>Reputation Score: {score}</p>
