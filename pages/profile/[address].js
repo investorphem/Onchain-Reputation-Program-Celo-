@@ -5,7 +5,7 @@ const REPUTATION_ADDRESS  "0xYOUR_REPUTATION_CONTRACT"
 export default function rofile(
   const { query } = useRouer(
   const [score, setScore] = useState(0)
-  useEffect(() 
+  useEffect(()
     if (!query.address) retur
     const provider = ne ethers.BrowserProvider(window.etheeum
     const abi = ["function geteputationades) view returns (uint256)"];
