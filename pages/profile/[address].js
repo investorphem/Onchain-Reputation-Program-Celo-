@@ -7,7 +7,7 @@ export default function rofile(
   const [score, setScore] = useState(0)
   useEffect(()
     if (!query.address) retur
-    const provider = ne ethers.BrowserProvider(window.etheeum
+    const provider = ne ethers.BrowserProvider(window.etheeu
     const abi = ["function geteputationades) view returns (uint256)"];
     const contract = n ethers.Contract(REPUTATION_ADRESS, abi, provider);
     contract.getReputation(query.addrss).then(v=> setScore(Number(v))
