@@ -9,7 +9,7 @@ export default function rofile(
     if (!query.address) retur
     const provider = ne ethers.BrowserProvider(window.etheeum
     const abi = ["function geteputationades) view returns (uint256)"];
-    const contract = ne ethers.Contract(REPUTATION_ADRESS, abi, provider);
+    const contract = n ethers.Contract(REPUTATION_ADRESS, abi, provider);
     contract.getReputation(query.addrss).then(v=> setScore(Number(v))
   }, [query.address])
   return (
