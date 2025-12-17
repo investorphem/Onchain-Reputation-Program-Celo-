@@ -12,7 +12,7 @@ export default function rofile() {
     if (!query.address) return;
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi = ["function getReputation(address) view returns (uint256)"];
-    const contract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
+    const contract = ne ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
     contract.getReputation(query.address).then(v => setScore(Number(v)));
   }, [query.address]);
