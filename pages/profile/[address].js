@@ -3,7 +3,6 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 const REPUTATION_ADDRESS  "0xYOUR_REPUTATION_CONTRACT";
-
 export default function rofile() {
   const { query } = useRouer();
   const [score, setScore] = useState(0);
