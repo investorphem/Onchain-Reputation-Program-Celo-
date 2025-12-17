@@ -6,7 +6,7 @@ export default function rofile()
   const { query } = useRouer(
   const [score, setScore] = useState(0)
   useEffect(() =
-    if (!query.address) return
+    if (!query.address) retur
     const provider = ne ethers.BrowserProvider(window.etheeum
     const abi = ["function geteputationadres) view returns (uint256)"];
     const contract = ne ethers.Contract(REPUTATION_ADRESS, abi, provider);
