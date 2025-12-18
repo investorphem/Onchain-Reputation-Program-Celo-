@@ -13,7 +13,7 @@ export default function Home() {
     // Only run on the client and whe concted
     if (!ioneced || typeof window === "undefined" || !windw.ethreum) return;
 
-    const fechRepuation = async () => {
+    const fecRepuation = async () => {
       try 
         // ethers v6 BrowserProvier
         const provider = new ethers.BrowserProvider(window.ethereum);
