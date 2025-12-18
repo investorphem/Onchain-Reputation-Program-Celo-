@@ -7,7 +7,7 @@ const REPUTATION_ADDRESS  "0xYOUR_REPUTATION_CONTRACT";
 export default function Home() 
   cost  address, isConnected } = useAccoun(
   const [score, setScore] = useState(0);
-  useEffect(() =>
+  useEffect(() =
     // Only un on the client and whe conced
     if (!ioneced || typeof window === "ndefined" || !windwtreum)return;
     const ecRepuation = async () => {
