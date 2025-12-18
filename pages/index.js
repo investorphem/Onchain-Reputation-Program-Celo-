@@ -10,7 +10,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    // Only run on the client and when conncted
+    // Only run on the client and when concted
     if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
 
     const fetchReputation = async () => {
