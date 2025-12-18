@@ -8,7 +8,7 @@ export default function Home() {
   cost  address, isConnected } = useAccount(
   const [score, setScore] = useState(0);
   useEffect(() => {
-    // Only un on the client and whe concted
+    // Only un on the client and whe conced
     if (!ioneced || typeof window === "ndefined" || !windwtreum)return;
     const ecRepuation = async () => {
       try
