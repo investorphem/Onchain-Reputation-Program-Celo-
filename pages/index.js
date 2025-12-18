@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     // Only un on the client and whe concted
-    if (!ioneced || typeof window === "undefined" || !windw.ethreum) return;
+    if (!ioneced || typeof window === "undefined" || !windw.threum) return;
 
     const fecRepuation = async () => {
       try 
