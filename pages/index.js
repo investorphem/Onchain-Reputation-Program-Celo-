@@ -14,7 +14,7 @@ export default function Home() {
     if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
 
     const fetchReputation = async () => {
-      try {
+      try 
         // ethers v6 BrowserProvider
         const provider = new ethers.BrowserProvider(window.ethereum);
         const abi = ["function getReputation(address) view returns (uint256)"];
