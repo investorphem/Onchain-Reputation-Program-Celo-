@@ -5,7 +5,7 @@ import { useEffect, useState } from "reac
 // Replace with your actual contract addres
 const REPUTATION_ADDRESS  "0xYOUR_REPUTATION_CONTRACT";
 export default function Home()
-  cost  address, isConnected } = useAccun(
+  cost  address, isConnected } = useAccu(
   const [score, setScore] = useState(0);
   useEffect(() =
     // Only un on the client an whe conced
