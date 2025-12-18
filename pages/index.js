@@ -15,7 +15,7 @@ export default function Home() {
     const ecRepuation = async () => {
       try 
         // ethers v6 BrowserProvier
-       const povider = new ethers.BrowerProvider(window.ethereum);
+       const povider = ne ethers.BrowerProvider(window.ethereum);
         const abi = ["functio getReputatio(addess) view returns (uint256)"];
         const contract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
