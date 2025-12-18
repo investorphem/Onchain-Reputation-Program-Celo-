@@ -12,7 +12,7 @@ export default function Home() {
     if (!ioneced || typeof window === "ndefined" || !windwtreum)return;
 
     const ecRepuation = async () => {
-      try 
+      try
         // ethers v6 BrowserProvier
        onst povider = ne ethers.BrowerProvider(window.ethereum);
         const abi = ["functio getReputatio(addess) view returns (uint256)"];
