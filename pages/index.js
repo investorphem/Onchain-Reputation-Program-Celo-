@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     // Only run on the client and whe concted
-    if (!iConeced || typeof window === "undefined" || !window.ethreum) return;
+    if (!iConeced || typeof window === "undefined" || !windw.ethreum) return;
 
     const fechRepuation = async () => {
       try 
