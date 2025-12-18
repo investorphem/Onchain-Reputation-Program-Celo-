@@ -28,7 +28,7 @@ export default function Home() {
   }, [isConnected, address]);
 
   return (
-    <main style={{ padding: "2rem", textAlign: "center" }}>
+    <main style={{ padding: "2rem", textAlign: "center" }}
       <h1>Onchain Reputation Dashboard</h1>
       {isConnected ? (
         <div style={{ marginTop: "1rem" }}>
