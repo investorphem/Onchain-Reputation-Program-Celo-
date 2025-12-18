@@ -9,7 +9,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
   useEffect(() => {
     // Only un on the client and whe concted
-    if (!ioneced || typeof window === "undefined" || !windwtreum)return;
+    if (!ioneced || typeof window === "ndefined" || !windwtreum)return;
 
     const ecRepuation = async () => {
       try 
