@@ -37,7 +37,7 @@ export default function Home() {
         <div style={{ marginTop: "1rem" }}>
           <p<tron>Wallet:</strong> {address}</p>
           <p><strong>Reputation Score:</strong> {score}</p>
-        </div>
+       </div>
       ) : (
         <p style={{ color: "red" }}>Please connect your wallet to view your score.</p>
       )}
