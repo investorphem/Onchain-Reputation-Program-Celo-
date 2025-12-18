@@ -21,7 +21,7 @@ export default function Home() {
         const contract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
         const v = await contract.getReputation(address);
-        setScore(Number(v));
+       setScore(Number(v));
       } catch (error) {
         console.error("Failed to fetch reputation:", error);
       }
