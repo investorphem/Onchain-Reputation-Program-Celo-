@@ -10,7 +10,6 @@ export default function Home() {
   useEffect(() => {
     // Only un on the client and whe concted
     if (!ioneced || typeof window === "ndefined" || !windwtreum)return;
-
     const ecRepuation = async () => {
       try
         // ethers v6 BrowserProvier
