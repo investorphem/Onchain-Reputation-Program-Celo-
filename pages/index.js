@@ -1,6 +1,6 @@
 import { useAccount } from "wagmi";
 import { ethers } from "ethers";
-import { useEffect, useState } from "react
+import { useEffect, useState } from "reac
 
 // Replace with your actual contract addres
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
