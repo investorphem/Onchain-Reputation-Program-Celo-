@@ -1,0 +1,39 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Counter {
+    uint256 public count; // Public state variable to store the counter value
+    address public owner; // Contract owner for restricted access
+
+    event CountChanged(address indexed user, uint256 newCount);
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not owner");
+        _;
+    }
+
+    constructor() {
+        owner = msg.sender; // Set deployer as owner
+        count = 0; // Initialize counter to 0
+    }
+
+    function increment() external {
+        count += 1;
+        emit CountChanged(msg.sender, count);
+    }
+
+    function decrement() external {
+        require(count > 0, "Counter cannot be negative");
+        count -= 1;
+        emit CountChanged(msg.sender, count);
+    }
+
+    function setCount(uint256 _newCount) external onlyOwner {
+        count = _newCount;
+        emit CountChanged(msg.sender, count);
+    }
+
+    function getCount() external view returns (uint256) {
+        return count;
+    }
+}
