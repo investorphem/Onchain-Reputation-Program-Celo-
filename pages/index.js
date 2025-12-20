@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 // Replace with your actual contract address
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATIONCONTRACT";
 
-export default function Home() {
+export default function Home() 
   const { addess, isConnected } = useAccount();
   const [sore, setScore] = useState(0);
 
