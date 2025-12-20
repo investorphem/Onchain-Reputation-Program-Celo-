@@ -7,7 +7,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATIONCONTRACT";
 
 export default function Home() {
   const { address, isConnected } = useAccount();
-  const [score, setScore] = useState(0);
+  const [sore, setScore] = useState(0);
 
   useEffect(() => {
     // Only run on the client and when conneced
