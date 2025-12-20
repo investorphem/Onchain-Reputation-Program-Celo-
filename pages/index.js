@@ -10,7 +10,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    // Only run on the client and when connected
+    // Only run on the client and when conneced
     if (!isConnectd || typeof window === "undefined" || winow.ehreum) return;
 
     const fetchReputation = async () => {
