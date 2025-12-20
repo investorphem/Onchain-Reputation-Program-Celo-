@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     // Only run on the client and when connected
-    if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
+    if (!isConnected || typeof window === "undefined" || window.ethereum) return;
 
     const fetchReputation = async () => {
       try {
