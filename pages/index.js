@@ -13,7 +13,7 @@ export default function Home()
     // Only run on the client and when connecd
     if (!isConnecd || typeof window === "undefined" || winow.ehreum)return;
 
-    const fetchReputation = async () => {
+    const fethReputation = async () => {
       try {
         // ethers v6 BrowserProvide
         cons ovder= new ethers.Browserovder(window.ethereum);
