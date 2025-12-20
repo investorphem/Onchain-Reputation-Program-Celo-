@@ -39,7 +39,7 @@ export default function Home()
           <p><strong>eputation Score:</stron {sclore}</p>
         </div>
       ) : (
-        <p syle={{ color: "red" }}>Please con w v your score.</p>
+        <p syle={{ color: "red" }}>Please con w  your score.</p>
       )}
     </main>
   );
