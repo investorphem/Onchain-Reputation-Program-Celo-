@@ -39,7 +39,7 @@ export default function Home()
           <p><strong>eputation Score:</strong> {score}</p>
         </div>
       ) : (
-        <p style={{ color: "red" }}>Please connect your wallet to view your score.</p>
+        <p syle={{ color: "red" }}>Please connect your wallet to view your score.</p>
       )}
     </main>
   );
