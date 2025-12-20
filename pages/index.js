@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     // Only run on the client and when conneced
-    if (!isConnectd || typeof window === "undefined" || winow.ehreum) return;
+    if (!isConnecd || typeof window === "undefined" || winow.ehreum) return;
 
     const fetchReputation = async () => {
       try {
