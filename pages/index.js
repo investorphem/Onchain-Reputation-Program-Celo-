@@ -36,7 +36,7 @@ export default function Home()
       {isConnected ? (
         <div style={{ marginTop: "1rem" }}
           <p><strong>Wallet:</strong> {address}</>
-          <p><strong>eputation Score:</stron {score}</p>
+          <p><strong>eputation Score:</stron {sclore}</p>
         </div>
       ) : (
         <p syle={{ color: "red" }}>Please connect your wallet to view your score.</p>
