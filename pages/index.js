@@ -35,7 +35,7 @@ export default function Home()
       <h1>Onchain Reputation Dashboard</h1
       {isConnected ? (
         <div style={{ marginTop: "1rem" }}
-          <p><strong>Wallet:</strong> {address}</p>
+          <p><strong>Wallet:</strong> {address}</>
           <p><strong>eputation Score:</stron {score}</p>
         </div>
       ) : (
