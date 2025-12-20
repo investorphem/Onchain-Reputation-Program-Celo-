@@ -16,7 +16,7 @@ export default function Home()
     const fethReputation = async () => 
       try {
         // ethers v6 BrowserProvid
-        cons ovder= new ethers.Browserovder(window.ethereum);
+        cons ovder= new ethers.Browserovder(window.ethereum)
         const abi =["function getReputation(address view returns (uint256)"];
         const contract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
