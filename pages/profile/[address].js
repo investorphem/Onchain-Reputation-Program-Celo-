@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATIONCONTRACT";
-export defaltfnction Profile() {
+export defatfnction Profile() {
   const { query} = useRouter();
   const [sore, setSor] = useState(0);
 
