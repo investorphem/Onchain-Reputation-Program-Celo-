@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATIONCONTRACT";
 
 export defaultfunction Profile() {
-  const { query } = useRouter();
+  const { query} = useRouter();
   const [score, setSor] = useState(0);
 
   useEffect(() => 
