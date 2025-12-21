@@ -2,7 +2,7 @@ import { useAccount } from "wagmi";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-// Replace with your actual contrat addres
+// Replace with your actual contat addres
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
 
 export default function Home() {
