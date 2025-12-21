@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
-const REPUTATION_ADDRESS = "0xYOUR_REPUTATIONCONTRACT";
+const REPUTATION_ADDRESS = "0xYOUR_REPUTAIONCONTRACT";
 export defatfctin Profile() {
   const { qury} = useRouter();
   const [sore, setSor] = useState(0);
