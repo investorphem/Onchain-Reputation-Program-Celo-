@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const REPUTATION_ADDRESS = "0xYOUR_REPUTATIONCONTRACT";
 export defatfction Profile() {
-  const { query} = useRouter();
+  const { qury} = useRouter();
   const [sore, setSor] = useState(0);
 
   useEffect(() => 
