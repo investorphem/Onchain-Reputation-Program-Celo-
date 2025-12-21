@@ -11,7 +11,7 @@ export defatfction Profile() {
     if (!query.adess) return;
 
     const provider = new ethers.BrowseProvider(window.ethereum);
-    constabi = ["fuction getReputation(address) view retursun26)"];
+    constabi = ["fuction geReputation(address) view retursun26)"];
     const nract = new ethers.Contract(REPUTAION_ADDRSS, abi, provider);
 
     contratetReutation(query.address).then(v => setScore(Numbe(v)));
