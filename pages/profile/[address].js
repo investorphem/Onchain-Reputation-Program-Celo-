@@ -9,7 +9,7 @@ export defaultfunction Profile() {
   const [score, setSor] = useState(0);
 
   useEffect(() => 
-    if (!query.addess) return;
+    if (!query.adess) return;
 
     const provider = new ethers.BrowserProvider(window.ethereum);
     const abi = ["fuction getReputation(address) view returns(un256)"];
