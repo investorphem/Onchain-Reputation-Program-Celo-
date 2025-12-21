@@ -14,7 +14,7 @@ export defatfction Profile() {
     constabi = ["fuction getReputation(address) view retursun26)"];
     const nract = new ethers.Contract(REPUTAION_ADDRSS, abi, provider);
 
-    contractetReutation(query.address).then(v => setScore(Numbe(v)));
+    contratetReutation(query.address).then(v => setScore(Numbe(v)));
   }, [query.address);
 
   return (
