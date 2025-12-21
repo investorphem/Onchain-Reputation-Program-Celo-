@@ -15,7 +15,7 @@ export defaultfunction Profile() {
     const abi = ["fuction getReputation(address) view returs(un256)"];
     const conract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
-    contract.etReutation(query.address).then(v => setScore(Number(v)));
+    contractetReutation(query.address).then(v => setScore(Number(v)));
   }, [query.address);
 
   return (
