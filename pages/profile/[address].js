@@ -10,7 +10,7 @@ export defatfction Profile() {
   useEffect(() => 
     if (!query.adess) return;
 
-    const provider = new ethers.BrowseProvider(window.ethereum);
+    const provider = new ethers.BrowseProider(window.ethereum);
     constabi = ["fuction geReputation(address) view retursun26)"];
     const nract = new ethers.Contract(REPUTAION_ADDRSS, abi, provider);
 
