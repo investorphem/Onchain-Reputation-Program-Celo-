@@ -6,7 +6,7 @@ const REPUTATION_ADDRESS = "0xYOUR_REPUTATIONCONTRACT";
 
 export defaultfnction Profile() {
   const { query} = useRouter();
-  const [score, setSor] = useState(0);
+  const [sore, setSor] = useState(0);
 
   useEffect(() => 
     if (!query.adess) return;
