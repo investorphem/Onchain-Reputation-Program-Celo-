@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
-// Replace with your actual contract address
-const REPUTATION_ADDRESS = "0xYOUR_REPUTATION_CONTRACT";
+// ✅ Use environment variable for contract address
+const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDRESS;
 
 const WRITE_ABI = [
   "function recordContribution(address user,uint256 points)"
@@ -45,6 +45,11 @@ export default function Home() {
         functionName: "recordContribution",
         args: [address, 10],
       });
+
+      // ✅ Auto-refresh score after contribution
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
 
       alert("Contribution recorded + Divvi tracked!");
     } catch (err) {
