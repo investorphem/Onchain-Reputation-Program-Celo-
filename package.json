@@ -14,8 +14,9 @@
     "react-dom": "18.3.1",
     "ethers": "^6.8.0",
     "wagmi": "^2.5.0",
-    "viem": "2.x",
-    "@tanstack/react-query": "^5.0.0"
+    "viem": "^2.21.0",
+    "@tanstack/react-query": "^5.0.0",
+    "@divvi/referral-sdk": "^2.0.0"
   },
   "devDependencies": {
     "hardhat": "^2.19.0",
