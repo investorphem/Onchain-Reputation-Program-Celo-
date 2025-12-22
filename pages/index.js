@@ -4,12 +4,12 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
-// ✅ Environment variables for your contracts
+// Environment variables
 const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDRESS;
 const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_ADDRESS;
 const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_ADDRESS;
 
-// ABIs
+// ABIs (MATCH DEPLOYED CONTRACTS)
 const REPUTATION_ABI = [
   "function getReputation(address) view returns (uint256)",
   "function increaseReputation(address user,uint256 amount)"
@@ -21,8 +21,8 @@ const ATTESTED_ABI = [
 ];
 
 const SOULBOUND_ABI = [
-  "function mintBadge(address user,string badgeName)",
-  "function getBadges(address user) view returns (string[])"
+  "function balanceOf(address owner) view returns (uint256)",
+  "function tokenURI(uint256 tokenId) view returns (string)"
 ];
 
 export default function Home() {
@@ -38,54 +38,44 @@ export default function Home() {
   useEffect(() => {
     if (!isConnected || !window.ethereum) return;
 
-    const fetchReputation = async () => {
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(REPUTATION_ADDRESS, REPUTATION_ABI, provider);
-        const v = await contract.getReputation(address);
-        setScore(Number(v));
-      } catch (error) {
-        console.error("Failed to fetch reputation:", error);
-      }
-    };
-
-    fetchReputation();
+    (async () => {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(REPUTATION_ADDRESS, REPUTATION_ABI, provider);
+      const v = await contract.getReputation(address);
+      setScore(Number(v));
+    })();
   }, [isConnected, address]);
 
   // Fetch attestations
   useEffect(() => {
     if (!isConnected || !window.ethereum) return;
 
-    const fetchAttestations = async () => {
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(ATTESTED_ADDRESS, ATTESTED_ABI, provider);
-        const data = await contract.getAttestations(address);
-        setAttestations(data);
-      } catch (err) {
-        console.error("Failed to fetch attestations:", err);
-      }
-    };
-
-    fetchAttestations();
+    (async () => {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(ATTESTED_ADDRESS, ATTESTED_ABI, provider);
+      const data = await contract.getAttestations(address);
+      setAttestations(data);
+    })();
   }, [isConnected, address]);
 
-  // Fetch Soulbound badges
+  // Fetch soulbound badges (CORRECT WAY)
   useEffect(() => {
     if (!isConnected || !window.ethereum) return;
 
-    const fetchBadges = async () => {
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(SOULBOUND_ADDRESS, SOULBOUND_ABI, provider);
-        const data = await contract.getBadges(address);
-        setBadges(data);
-      } catch (err) {
-        console.error("Failed to fetch badges:", err);
-      }
-    };
+    (async () => {
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(SOULBOUND_ADDRESS, SOULBOUND_ABI, provider);
 
-    fetchBadges();
+      const balance = await contract.balanceOf(address);
+      const list = [];
+
+      for (let i = 1; i <= Number(balance); i++) {
+        const uri = await contract.tokenURI(i);
+        list.push(uri);
+      }
+
+      setBadges(list);
+    })();
   }, [isConnected, address]);
 
   // Record contribution
@@ -98,9 +88,8 @@ export default function Home() {
         args: [address, 10],
       });
       alert("Contribution recorded + Divvi tracked!");
-      setTimeout(() => window.location.reload(), 2000);
+      setTimeout(() => window.location.reload(), 1500);
     } catch (err) {
-      console.error(err);
       alert("Transaction failed");
     }
   };
@@ -118,29 +107,8 @@ export default function Home() {
         args: [address, description],
       });
       alert("Attestation submitted + Divvi tracked!");
-      setTimeout(() => window.location.reload(), 2000);
+      setTimeout(() => window.location.reload(), 1500);
     } catch (err) {
-      console.error(err);
-      alert("Transaction failed");
-    }
-  };
-
-  // Mint Soulbound badge
-  const handleMintBadge = async () => {
-    const badgeName = prompt("Enter badge name:");
-    if (!badgeName) return;
-
-    try {
-      await sendTrackedTx({
-        contractAddress: SOULBOUND_ADDRESS,
-        abi: SOULBOUND_ABI,
-        functionName: "mintBadge",
-        args: [address, badgeName],
-      });
-      alert("Badge minted + Divvi tracked!");
-      setTimeout(() => window.location.reload(), 2000);
-    } catch (err) {
-      console.error(err);
       alert("Transaction failed");
     }
   };
@@ -152,55 +120,34 @@ export default function Home() {
       {!isConnected ? (
         <>
           <p>Please connect your wallet to view your dashboard.</p>
-          <button onClick={() => connect({ connector: injected() })} style={{ padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
+          <button onClick={() => connect({ connector: injected() })}>
             Connect Wallet
           </button>
         </>
       ) : (
-        <div style={{ marginTop: "1rem" }}>
+        <>
           <p><strong>Wallet:</strong> {address}</p>
-          <p><strong>Reputation Score:</strong> {score}</p>
+          <p><strong>Reputation:</strong> {score}</p>
 
-          <button onClick={handleContribution} style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
-            Record Contribution
+          <button onClick={handleContribution}>Record Contribution</button>
+          <button onClick={handleAttest} style={{ marginLeft: "1rem" }}>
+            Attest
           </button>
 
-          <button onClick={handleAttest} style={{ marginTop: "1rem", marginLeft: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
-            Attest User
-          </button>
+          <h2 style={{ marginTop: "2rem" }}>Attestations</h2>
+          {attestations.length === 0 ? <p>None</p> : attestations.map((a, i) => (
+            <p key={i}>{a.description}</p>
+          ))}
 
-          <button onClick={handleMintBadge} style={{ marginTop: "1rem", marginLeft: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
-            Mint Soulbound Badge
-          </button>
+          <h2 style={{ marginTop: "2rem" }}>Soulbound Badges</h2>
+          {badges.length === 0 ? <p>No badges yet</p> : badges.map((b, i) => (
+            <p key={i}>{b}</p>
+          ))}
 
-          <h2 style={{ marginTop: "2rem" }}>Your Attestations</h2>
-          {attestations.length === 0 ? <p>No attestations found.</p> : (
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {attestations.map((a, i) => (
-                <li key={i} style={{ marginBottom: "1rem", border: "1px solid #ccc", padding: "10px", borderRadius: "8px" }}>
-                  <p><strong>Issuer:</strong> {a.issuer}</p>
-                  <p><strong>Description:</strong> {a.description}</p>
-                  <p><strong>Timestamp:</strong> {new Date(a.timestamp * 1000).toLocaleString()}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <h2 style={{ marginTop: "2rem" }}>Your Badges</h2>
-          {badges.length === 0 ? <p>No badges earned yet.</p> : (
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {badges.map((b, i) => (
-                <li key={i} style={{ marginBottom: "0.5rem", padding: "6px 10px", border: "1px solid #ccc", borderRadius: "6px" }}>
-                  {b}
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <button onClick={disconnect} style={{ marginTop: "1rem", padding: "8px 14px", fontSize: "14px", cursor: "pointer", background: "#eee" }}>
+          <button onClick={disconnect} style={{ marginTop: "1rem" }}>
             Disconnect
           </button>
-        </div>
+        </>
       )}
     </main>
   );
