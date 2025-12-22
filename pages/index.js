@@ -4,11 +4,19 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
-// ✅ Use environment variable for contract address
+// ✅ Environment variables for contract addresses
 const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDRESS;
+const ATTESTATION_ADDRESS = process.env.NEXT_PUBLIC_ATTESTATION_ADDRESS;
 
-const WRITE_ABI = [
-  "function recordContribution(address user,uint256 points)"
+// ABIs
+const REPUTATION_ABI = [
+  "function getReputation(address user) view returns (uint256)",
+  "function increaseReputation(address user, uint256 amount)"
+];
+
+const ATTESTATION_ABI = [
+  "function getAttestations(address user) view returns (tuple(address issuer,string description,uint256 timestamp)[])",
+  "function attest(address user, string description)"
 ];
 
 export default function Home() {
@@ -17,41 +25,66 @@ export default function Home() {
   const { disconnect } = useDisconnect();
 
   const [score, setScore] = useState(0);
+  const [attestations, setAttestations] = useState([]);
 
+  // Fetch reputation and attestations
   useEffect(() => {
     if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
 
-    const fetchReputation = async () => {
+    const fetchData = async () => {
       try {
         const provider = new ethers.BrowserProvider(window.ethereum);
-        const abi = ["function getReputation(address) view returns (uint256)"];
-        const contract = new ethers.Contract(REPUTATION_ADDRESS, abi, provider);
 
-        const v = await contract.getReputation(address);
-        setScore(Number(v));
-      } catch (error) {
-        console.error("Failed to fetch reputation:", error);
+        // Reputation
+        const repContract = new ethers.Contract(REPUTATION_ADDRESS, REPUTATION_ABI, provider);
+        const rep = await repContract.getReputation(address);
+        setScore(Number(rep));
+
+        // Attestations
+        const attContract = new ethers.Contract(ATTESTATION_ADDRESS, ATTESTATION_ABI, provider);
+        const ats = await attContract.getAttestations(address);
+        setAttestations(ats);
+      } catch (err) {
+        console.error("Failed to fetch data:", err);
       }
     };
 
-    fetchReputation();
+    fetchData();
   }, [isConnected, address]);
 
+  // Record contribution (Reputation)
   async function handleContribution() {
     try {
       await sendTrackedTx({
         contractAddress: REPUTATION_ADDRESS,
-        abi: WRITE_ABI,
-        functionName: "recordContribution",
+        abi: REPUTATION_ABI,
+        functionName: "increaseReputation",
         args: [address, 10],
       });
 
-      // ✅ Auto-refresh score after contribution
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
-
+      setTimeout(() => window.location.reload(), 2000);
       alert("Contribution recorded + Divvi tracked!");
+    } catch (err) {
+      console.error(err);
+      alert("Transaction failed");
+    }
+  }
+
+  // Record attestation
+  async function handleAttestation() {
+    const description = prompt("Enter attestation description:");
+    if (!description) return;
+
+    try {
+      await sendTrackedTx({
+        contractAddress: ATTESTATION_ADDRESS,
+        abi: ATTESTATION_ABI,
+        functionName: "attest",
+        args: [address, description],
+      });
+
+      setTimeout(() => window.location.reload(), 2000);
+      alert("Attestation recorded + Divvi tracked!");
     } catch (err) {
       console.error(err);
       alert("Transaction failed");
@@ -64,14 +97,10 @@ export default function Home() {
 
       {!isConnected ? (
         <>
-          <p>Please connect your wallet to view your score.</p>
+          <p>Please connect your wallet to view your score and attestations.</p>
           <button
             onClick={() => connect({ connector: injected() })}
-            style={{
-              padding: "10px 16px",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
+            style={{ padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
           >
             Connect Wallet
           </button>
@@ -83,27 +112,39 @@ export default function Home() {
 
           <button
             onClick={handleContribution}
-            style={{
-              marginTop: "1rem",
-              padding: "10px 16px",
-              fontSize: "16px",
-              cursor: "pointer",
-            }}
+            style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
           >
             Record Contribution
+          </button>
+
+          <h3 style={{ marginTop: "2rem" }}>Attestations</h3>
+          {attestations.length > 0 ? (
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {attestations.map((att, i) => (
+                <li key={i}>
+                  <strong>Issuer:</strong> {att.issuer} <br />
+                  <strong>Description:</strong> {att.description} <br />
+                  <strong>Timestamp:</strong> {new Date(att.timestamp * 1000).toLocaleString()}
+                  <hr />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>No attestations yet.</p>
+          )}
+
+          <button
+            onClick={handleAttestation}
+            style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
+          >
+            Add Attestation
           </button>
 
           <br />
 
           <button
             onClick={disconnect}
-            style={{
-              marginTop: "1rem",
-              padding: "8px 14px",
-              fontSize: "14px",
-              cursor: "pointer",
-              background: "#eee",
-            }}
+            style={{ marginTop: "1rem", padding: "8px 14px", fontSize: "14px", cursor: "pointer", background: "#eee" }}
           >
             Disconnect
           </button>
