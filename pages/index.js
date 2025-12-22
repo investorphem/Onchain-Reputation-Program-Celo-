@@ -7,6 +7,7 @@ import { sendTrackedTx } from "../lib/sendTrackedTx";
 // ✅ Environment variables for contract addresses
 const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDRESS;
 const ATTESTATION_ADDRESS = process.env.NEXT_PUBLIC_ATTESTATION_ADDRESS;
+const BADGE_ADDRESS = process.env.NEXT_PUBLIC_BADGE_ADDRESS; // Placeholder for SoulboundBadge
 
 // ABIs
 const REPUTATION_ABI = [
@@ -19,6 +20,12 @@ const ATTESTATION_ABI = [
   "function attest(address user, string description)"
 ];
 
+// Placeholder ABI for SoulboundBadge
+const BADGE_ABI = [
+  "function getBadges(address user) view returns (string[])",
+  "function issueBadge(address user, string badgeName)"
+];
+
 export default function Home() {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
@@ -26,8 +33,9 @@ export default function Home() {
 
   const [score, setScore] = useState(0);
   const [attestations, setAttestations] = useState([]);
+  const [badges, setBadges] = useState([]);
 
-  // Fetch reputation and attestations
+  // Fetch reputation, attestations, badges
   useEffect(() => {
     if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
 
@@ -44,6 +52,13 @@ export default function Home() {
         const attContract = new ethers.Contract(ATTESTATION_ADDRESS, ATTESTATION_ABI, provider);
         const ats = await attContract.getAttestations(address);
         setAttestations(ats);
+
+        // Badges (if contract deployed)
+        if (BADGE_ADDRESS) {
+          const badgeContract = new ethers.Contract(BADGE_ADDRESS, BADGE_ABI, provider);
+          const bgs = await badgeContract.getBadges(address);
+          setBadges(bgs);
+        }
       } catch (err) {
         console.error("Failed to fetch data:", err);
       }
@@ -91,13 +106,38 @@ export default function Home() {
     }
   }
 
+  // Issue badge (placeholder)
+  async function handleBadge() {
+    if (!BADGE_ADDRESS) {
+      alert("SoulboundBadge contract not deployed yet");
+      return;
+    }
+    const badgeName = prompt("Enter badge name:");
+    if (!badgeName) return;
+
+    try {
+      await sendTrackedTx({
+        contractAddress: BADGE_ADDRESS,
+        abi: BADGE_ABI,
+        functionName: "issueBadge",
+        args: [address, badgeName],
+      });
+
+      setTimeout(() => window.location.reload(), 2000);
+      alert("Badge issued + Divvi tracked!");
+    } catch (err) {
+      console.error(err);
+      alert("Transaction failed");
+    }
+  }
+
   return (
     <main style={{ padding: "2rem", textAlign: "center" }}>
       <h1>Onchain Reputation Dashboard</h1>
 
       {!isConnected ? (
         <>
-          <p>Please connect your wallet to view your score and attestations.</p>
+          <p>Please connect your wallet to view your score, attestations, and badges.</p>
           <button
             onClick={() => connect({ connector: injected() })}
             style={{ padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
@@ -138,6 +178,24 @@ export default function Home() {
             style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
           >
             Add Attestation
+          </button>
+
+          <h3 style={{ marginTop: "2rem" }}>Badges</h3>
+          {badges.length > 0 ? (
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {badges.map((b, i) => (
+                <li key={i}>{b}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No badges yet.</p>
+          )}
+
+          <button
+            onClick={handleBadge}
+            style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
+          >
+            Issue Badge
           </button>
 
           <br />
