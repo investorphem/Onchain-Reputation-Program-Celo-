@@ -15,7 +15,8 @@ const REPUTATION_ABI = [
 ];
 
 const ATTESTED_ABI = [
-  "function attest(address user,string description)"
+  "function attest(address user,string description)",
+  "function getAttestations(address user) view returns (tuple(address issuer,string description,uint256 timestamp)[])"
 ];
 
 export default function Home() {
@@ -24,8 +25,9 @@ export default function Home() {
   const { disconnect } = useDisconnect();
 
   const [score, setScore] = useState(0);
+  const [attestations, setAttestations] = useState([]);
 
-  // Fetch reputation on load
+  // Fetch reputation
   useEffect(() => {
     if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
 
@@ -43,7 +45,25 @@ export default function Home() {
     fetchReputation();
   }, [isConnected, address]);
 
-  // Record contribution in Reputation contract
+  // Fetch attestations
+  useEffect(() => {
+    if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
+
+    const fetchAttestations = async () => {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const contract = new ethers.Contract(ATTESTED_ADDRESS, ATTESTED_ABI, provider);
+        const data = await contract.getAttestations(address);
+        setAttestations(data);
+      } catch (err) {
+        console.error("Failed to fetch attestations:", err);
+      }
+    };
+
+    fetchAttestations();
+  }, [isConnected, address]);
+
+  // Record contribution in Reputation
   const handleContribution = async () => {
     try {
       await sendTrackedTx({
@@ -60,7 +80,7 @@ export default function Home() {
     }
   };
 
-  // Attest a user in AttestedRegistry contract
+  // Attest user
   const handleAttest = async () => {
     const description = prompt("Enter attestation description:");
     if (!description) return;
@@ -73,6 +93,7 @@ export default function Home() {
         args: [address, description],
       });
       alert("Attestation submitted + Divvi tracked!");
+      setTimeout(() => window.location.reload(), 2000);
     } catch (err) {
       console.error(err);
       alert("Transaction failed");
@@ -85,7 +106,7 @@ export default function Home() {
 
       {!isConnected ? (
         <>
-          <p>Please connect your wallet to view your score.</p>
+          <p>Please connect your wallet to view your score and attestations.</p>
           <button
             onClick={() => connect({ connector: injected() })}
             style={{ padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
@@ -112,7 +133,20 @@ export default function Home() {
             Attest User
           </button>
 
-          <br />
+          <h2 style={{ marginTop: "2rem" }}>Your Attestations</h2>
+          {attestations.length === 0 ? (
+            <p>No attestations found.</p>
+          ) : (
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {attestations.map((a, i) => (
+                <li key={i} style={{ marginBottom: "1rem", border: "1px solid #ccc", padding: "10px", borderRadius: "8px" }}>
+                  <p><strong>Issuer:</strong> {a.issuer}</p>
+                  <p><strong>Description:</strong> {a.description}</p>
+                  <p><strong>Timestamp:</strong> {new Date(a.timestamp * 1000).toLocaleString()}</p>
+                </li>
+              ))}
+            </ul>
+          )}
 
           <button
             onClick={disconnect}
