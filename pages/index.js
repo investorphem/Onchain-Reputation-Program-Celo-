@@ -1,8 +1,7 @@
-import { useAccount } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { injected } from "wagmi/connectors";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-
-// ➕ ADD THIS
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
 // Replace with your actual contract address
@@ -14,6 +13,9 @@ const WRITE_ABI = [
 
 export default function Home() {
   const { address, isConnected } = useAccount();
+  const { connect } = useConnect();
+  const { disconnect } = useDisconnect();
+
   const [score, setScore] = useState(0);
 
   useEffect(() => {
@@ -35,7 +37,6 @@ export default function Home() {
     fetchReputation();
   }, [isConnected, address]);
 
-  // ➕ ADD THIS FUNCTION
   async function handleContribution() {
     try {
       await sendTrackedTx({
@@ -56,12 +57,25 @@ export default function Home() {
     <main style={{ padding: "2rem", textAlign: "center" }}>
       <h1>Onchain Reputation Dashboard</h1>
 
-      {isConnected ? (
+      {!isConnected ? (
+        <>
+          <p>Please connect your wallet to view your score.</p>
+          <button
+            onClick={() => connect({ connector: injected() })}
+            style={{
+              padding: "10px 16px",
+              fontSize: "16px",
+              cursor: "pointer",
+            }}
+          >
+            Connect Wallet
+          </button>
+        </>
+      ) : (
         <div style={{ marginTop: "1rem" }}>
           <p><strong>Wallet:</strong> {address}</p>
           <p><strong>Reputation Score:</strong> {score}</p>
 
-          {/* ➕ ADD THIS BUTTON */}
           <button
             onClick={handleContribution}
             style={{
@@ -73,11 +87,22 @@ export default function Home() {
           >
             Record Contribution
           </button>
+
+          <br />
+
+          <button
+            onClick={disconnect}
+            style={{
+              marginTop: "1rem",
+              padding: "8px 14px",
+              fontSize: "14px",
+              cursor: "pointer",
+              background: "#eee",
+            }}
+          >
+            Disconnect
+          </button>
         </div>
-      ) : (
-        <p style={{ color: "red" }}>
-          Please connect your wallet to view your score.
-        </p>
       )}
     </main>
   );
