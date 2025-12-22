@@ -9,7 +9,7 @@ contract SoulboundBadge is ERC721URIStorage, AccessControl {
 
     uint256 public tokenIdCounter;
 
-    // user => list of tokenIds
+    // user => tokenIds
     mapping(address => uint256[]) private userBadges;
 
     constructor(address admin) ERC721("SoulboundBadge", "SBB") {
@@ -17,6 +17,9 @@ contract SoulboundBadge is ERC721URIStorage, AccessControl {
         _grantRole(MINTER_ROLE, admin);
     }
 
+    // =========================
+    // Minting
+    // =========================
     function mintBadge(address to, string memory uri)
         external
         onlyRole(MINTER_ROLE)
@@ -27,7 +30,14 @@ contract SoulboundBadge is ERC721URIStorage, AccessControl {
         userBadges[to].push(tokenIdCounter);
     }
 
-    function getBadges(address user) external view returns (string[] memory) {
+    // =========================
+    // View helpers
+    // =========================
+    function getBadges(address user)
+        external
+        view
+        returns (string[] memory)
+    {
         uint256[] memory ids = userBadges[user];
         string[] memory uris = new string[](ids.length);
 
@@ -37,14 +47,33 @@ contract SoulboundBadge is ERC721URIStorage, AccessControl {
         return uris;
     }
 
-    // 🔒 Soulbound enforcement
-    function _beforeTokenTransfer(
-        address from,
+    // =========================
+    // Soulbound enforcement (OZ v5)
+    // =========================
+    function _update(
         address to,
         uint256 tokenId,
-        uint256 batchSize
-    ) internal override {
-        require(from == address(0), "Soulbound: transfer disabled");
-        super._beforeTokenTransfer(from, to, tokenId, batchSize);
+        address auth
+    ) internal override returns (address) {
+        address from = _ownerOf(tokenId);
+
+        // Allow minting only
+        if (from != address(0)) {
+            revert("Soulbound: transfers disabled");
+        }
+
+        return super._update(to, tokenId, auth);
+    }
+
+    // =========================
+    // Interface support fix
+    // =========================
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721URIStorage, AccessControl)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
     }
 }
