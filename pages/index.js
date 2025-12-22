@@ -7,6 +7,7 @@ import { sendTrackedTx } from "../lib/sendTrackedTx";
 // ✅ Environment variables for your contracts
 const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDRESS;
 const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_ADDRESS;
+const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_ADDRESS;
 
 // ABIs
 const REPUTATION_ABI = [
@@ -19,6 +20,11 @@ const ATTESTED_ABI = [
   "function getAttestations(address user) view returns (tuple(address issuer,string description,uint256 timestamp)[])"
 ];
 
+const SOULBOUND_ABI = [
+  "function mintBadge(address user,string badgeName)",
+  "function getBadges(address user) view returns (string[])"
+];
+
 export default function Home() {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
@@ -26,10 +32,11 @@ export default function Home() {
 
   const [score, setScore] = useState(0);
   const [attestations, setAttestations] = useState([]);
+  const [badges, setBadges] = useState([]);
 
   // Fetch reputation
   useEffect(() => {
-    if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
+    if (!isConnected || !window.ethereum) return;
 
     const fetchReputation = async () => {
       try {
@@ -47,7 +54,7 @@ export default function Home() {
 
   // Fetch attestations
   useEffect(() => {
-    if (!isConnected || typeof window === "undefined" || !window.ethereum) return;
+    if (!isConnected || !window.ethereum) return;
 
     const fetchAttestations = async () => {
       try {
@@ -63,7 +70,25 @@ export default function Home() {
     fetchAttestations();
   }, [isConnected, address]);
 
-  // Record contribution in Reputation
+  // Fetch Soulbound badges
+  useEffect(() => {
+    if (!isConnected || !window.ethereum) return;
+
+    const fetchBadges = async () => {
+      try {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const contract = new ethers.Contract(SOULBOUND_ADDRESS, SOULBOUND_ABI, provider);
+        const data = await contract.getBadges(address);
+        setBadges(data);
+      } catch (err) {
+        console.error("Failed to fetch badges:", err);
+      }
+    };
+
+    fetchBadges();
+  }, [isConnected, address]);
+
+  // Record contribution
   const handleContribution = async () => {
     try {
       await sendTrackedTx({
@@ -100,17 +125,34 @@ export default function Home() {
     }
   };
 
+  // Mint Soulbound badge
+  const handleMintBadge = async () => {
+    const badgeName = prompt("Enter badge name:");
+    if (!badgeName) return;
+
+    try {
+      await sendTrackedTx({
+        contractAddress: SOULBOUND_ADDRESS,
+        abi: SOULBOUND_ABI,
+        functionName: "mintBadge",
+        args: [address, badgeName],
+      });
+      alert("Badge minted + Divvi tracked!");
+      setTimeout(() => window.location.reload(), 2000);
+    } catch (err) {
+      console.error(err);
+      alert("Transaction failed");
+    }
+  };
+
   return (
     <main style={{ padding: "2rem", textAlign: "center" }}>
       <h1>Onchain Reputation Dashboard</h1>
 
       {!isConnected ? (
         <>
-          <p>Please connect your wallet to view your score and attestations.</p>
-          <button
-            onClick={() => connect({ connector: injected() })}
-            style={{ padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
-          >
+          <p>Please connect your wallet to view your dashboard.</p>
+          <button onClick={() => connect({ connector: injected() })} style={{ padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
             Connect Wallet
           </button>
         </>
@@ -119,24 +161,20 @@ export default function Home() {
           <p><strong>Wallet:</strong> {address}</p>
           <p><strong>Reputation Score:</strong> {score}</p>
 
-          <button
-            onClick={handleContribution}
-            style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
-          >
+          <button onClick={handleContribution} style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
             Record Contribution
           </button>
 
-          <button
-            onClick={handleAttest}
-            style={{ marginTop: "1rem", marginLeft: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}
-          >
+          <button onClick={handleAttest} style={{ marginTop: "1rem", marginLeft: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
             Attest User
           </button>
 
+          <button onClick={handleMintBadge} style={{ marginTop: "1rem", marginLeft: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
+            Mint Soulbound Badge
+          </button>
+
           <h2 style={{ marginTop: "2rem" }}>Your Attestations</h2>
-          {attestations.length === 0 ? (
-            <p>No attestations found.</p>
-          ) : (
+          {attestations.length === 0 ? <p>No attestations found.</p> : (
             <ul style={{ listStyle: "none", padding: 0 }}>
               {attestations.map((a, i) => (
                 <li key={i} style={{ marginBottom: "1rem", border: "1px solid #ccc", padding: "10px", borderRadius: "8px" }}>
@@ -148,10 +186,18 @@ export default function Home() {
             </ul>
           )}
 
-          <button
-            onClick={disconnect}
-            style={{ marginTop: "1rem", padding: "8px 14px", fontSize: "14px", cursor: "pointer", background: "#eee" }}
-          >
+          <h2 style={{ marginTop: "2rem" }}>Your Badges</h2>
+          {badges.length === 0 ? <p>No badges earned yet.</p> : (
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {badges.map((b, i) => (
+                <li key={i} style={{ marginBottom: "0.5rem", padding: "6px 10px", border: "1px solid #ccc", borderRadius: "6px" }}>
+                  {b}
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <button onClick={disconnect} style={{ marginTop: "1rem", padding: "8px 14px", fontSize: "14px", cursor: "pointer", background: "#eee" }}>
             Disconnect
           </button>
         </div>
