@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
 // Environment variables
-const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDESS;
+const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDRESS;
 const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_ADDRESS;
 const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_ADDRESS;
 
