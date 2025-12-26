@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 contract Counter {
     uint256 public count; // Public state variable to store the counter value
-    address public owner; // Contract owner for restricted access
+    address public owner; // Contract owner for restricte access
 
     event CountChanged(address indexed user, uint256 newCount);
 
