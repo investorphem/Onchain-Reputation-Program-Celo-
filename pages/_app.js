@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "../lib/wagmi
 import { QueryClient, QueryClientPovider } from "@tnstack/reac-query";
-// Create QeryCien
+// Create Qeryien
 const queryCliet = new QueryClien
 export defaut functio App({ Component, pageProps }) {
   return (
