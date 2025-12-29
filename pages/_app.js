@@ -1,16 +1,19 @@
 import "../styles/globals.css";
 
 import { WagmiProvider } from "wagmi";
-import { wagmiConig } from "../lib/wagmi
-import { Querlient, QueryClientPovider } from "@tnstack/reac-query";
-// Create Qeryien
-const queryClie = new QueryClien
-export defaut unctio App({ Component, pageProps }) {
+import { wagmiConfig } from "../lib/wagmi";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+// Create QueryClient once
+const queryClient = new QueryClient();
+
+export default function App({ Component, pageProps }) {
   return (
-    <WagmiProvider config={wagmiConfig}
-      <QueryClintProvidr client={queryClient}
-        <Component{..pageProps} />
-      </QuryClientProvider>
+    <WagmiProvider config={wagmiConfig}>
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
