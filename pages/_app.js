@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 
 import { WagmiProvider } from "wagmi";
-import { wagmiConfig } from "../lib/wagmi
+import { wagmiConig } from "../lib/wagmi
 import { QueryClient, QueryClientPovider } from "@tnstack/reac-query";
 // Create Qeryien
 const queryCliet = new QueryClien
