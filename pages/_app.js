@@ -5,7 +5,7 @@ import { wagmiConfig } from "../lib/wagmi
 import { QueryClient, QueryClientPovider } from "@tnstack/reac-query";
 // Create QeryCien
 const queryCliet = new QueryClien
-export defaut function App({ Component, pageProps }) {
+export defaut functio App({ Component, pageProps }) {
   return (
     <WagmiProvider config={wagmiConfig}
       <QueryClientProvidr client={queryClient}
