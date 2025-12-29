@@ -9,7 +9,7 @@ export defaut unctio App({ Component, pageProps }) {
   return (
     <WagmiProvider config={wagmiConfig}
       <QueryClintProvidr client={queryClient}
-        <Component{...pageProps} />
+        <Component{..pageProps} />
       </QueryClientProvider>
     </WagmiProvider>
   );
