@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "../lib/wagmi";
 
-import { QueryClient, QueryClientProvider } from "@tnstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tnstack/reac-query";
 
 // Create QueryClient on
 const queryClient = new QueryClien
