@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { ethers } from "ethers";
@@ -47,6 +48,7 @@ export default function Home() {
 
   // Check and switch network if needed
   const NETWORK_ID = 44787; // Celo Alfajores
+
   useEffect(() => {
     if (isConnected && chain?.id !== NETWORK_ID && switchNetwork) {
       switchNetwork(NETWORK_ID);
@@ -67,6 +69,7 @@ export default function Home() {
         console.error("Failed to fetch reputation:", err);
       }
     };
+
     fetchReputation();
   }, [isConnected, address]);
 
@@ -84,6 +87,7 @@ export default function Home() {
         console.error("Failed to fetch attestations:", err);
       }
     };
+
     fetchAttestations();
   }, [isConnected, address]);
 
@@ -101,6 +105,7 @@ export default function Home() {
         console.error("Failed to fetch badges:", err);
       }
     };
+
     fetchBadges();
   }, [isConnected, address]);
 
@@ -117,12 +122,14 @@ export default function Home() {
         for (const threshold of BADGE_THRESHOLDS) {
           if (score >= threshold.points && !badges.includes(threshold.badge)) {
             setPendingTx(true);
+
             await sendTrackedTx({
               contractName: "soulbound",
               abi: SOULBOUND_ABI,
               functionName: "mintBadge",
               args: [address, threshold.badge]
             });
+
             setPendingTx(false);
           }
         }
@@ -138,8 +145,15 @@ export default function Home() {
   // General transaction handler
   const handleTx = async (contractName, functionName, args) => {
     setPendingTx(true);
+
     try {
-      await sendTrackedTx({ contractName, abi: contractName === "reputation" ? REPUTATION_ABI : ATTESTED_ABI, functionName, args });
+      await sendTrackedTx({
+        contractName,
+        abi: contractName === "reputation" ? REPUTATION_ABI : ATTESTED_ABI,
+        functionName,
+        args
+      });
+
       alert(`${functionName} executed + Divvi tracked!`);
       setPendingTx(false);
       window.location.reload();
@@ -151,61 +165,153 @@ export default function Home() {
   };
 
   return (
-    <main style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Onchain Reputation Dashboard</h1>
+    <>
+      <Head>
+        <title>Onchain Reputation Dashboard</title>
 
-      {!isConnected ? (
-        <>
-          <p>Please connect your wallet to view your dashboard.</p>
-          <button onClick={() => connect({ connector: injected() })} style={{ padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
-            Connect Wallet
-          </button>
-        </>
-      ) : (
-        <div style={{ marginTop: "1rem" }}>
-          <p><strong>Wallet:</strong> {address}</p>
-          <p><strong>Reputation Score:</strong> {score}</p>
+        {/* Talent Protocol Verification */}
+        <meta
+          name="talentapp:project_verification"
+          content="b7469046f8f4698a34a4a86aaeb82202b0be2c8d613507f63f4f9dcad239b0a83d1302d501095f669a3ac1b59df0074a24eb50689e095961a0dc4ae672457cbe"
+        />
 
-          <button onClick={() => handleTx("reputation", "increaseReputation", [address, 10])} disabled={pendingTx} style={{ marginTop: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
-            {pendingTx ? "Pending..." : "Record Contribution"}
-          </button>
+        {/* Social preview */}
+        <meta property="og:title" content="Onchain Reputation Dashboard" />
+        <meta
+          property="og:description"
+          content="Track reputation, attest users, and earn soulbound badges onchain."
+        />
+        <meta property="og:image" content="/preview.png" />
+      </Head>
 
-          <button onClick={() => {
-            const desc = prompt("Enter attestation description:");
-            if (desc) handleTx("attested", "attest", [address, desc]);
-          }} disabled={pendingTx} style={{ marginTop: "1rem", marginLeft: "1rem", padding: "10px 16px", fontSize: "16px", cursor: "pointer" }}>
-            {pendingTx ? "Pending..." : "Attest User"}
-          </button>
+      <main style={{ padding: "2rem", textAlign: "center" }}>
+        <h1>Onchain Reputation Dashboard</h1>
 
-          <h2 style={{ marginTop: "2rem" }}>Your Attestations</h2>
-          {attestations.length === 0 ? <p>No attestations found.</p> : (
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {attestations.map((a, i) => (
-                <li key={i} style={{ marginBottom: "1rem", border: "1px solid #ccc", padding: "10px", borderRadius: "8px" }}>
-                  <p><strong>Issuer:</strong> {a.issuer}</p>
-                  <p><strong>Description:</strong> {a.description}</p>
-                  <p><strong>Timestamp:</strong> {new Date(a.timestamp * 1000).toLocaleString()}</p>
-                </li>
-              ))}
-            </ul>
-          )}
+        {!isConnected ? (
+          <>
+            <p>Please connect your wallet to view your dashboard.</p>
 
-          <h2 style={{ marginTop: "2rem" }}>Your Badges</h2>
-          {badges.length === 0 ? <p>No badges earned yet.</p> : (
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {badges.map((b, i) => (
-                <li key={i} style={{ marginBottom: "0.5rem", padding: "6px 10px", border: "1px solid #ccc", borderRadius: "6px" }}>
-                  {b}
-                </li>
-              ))}
-            </ul>
-          )}
+            <button
+              onClick={() => connect({ connector: injected() })}
+              style={{
+                padding: "10px 16px",
+                fontSize: "16px",
+                cursor: "pointer"
+              }}
+            >
+              Connect Wallet
+            </button>
+          </>
+        ) : (
+          <div style={{ marginTop: "1rem" }}>
+            <p>
+              <strong>Wallet:</strong> {address}
+            </p>
 
-          <button onClick={disconnect} style={{ marginTop: "1rem", padding: "8px 14px", fontSize: "14px", cursor: "pointer", background: "#eee" }}>
-            Disconnect
-          </button>
-        </div>
-      )}
-    </main>
+            <p>
+              <strong>Reputation Score:</strong> {score}
+            </p>
+
+            <button
+              onClick={() =>
+                handleTx("reputation", "increaseReputation", [address, 10])
+              }
+              disabled={pendingTx}
+              style={{
+                marginTop: "1rem",
+                padding: "10px 16px",
+                fontSize: "16px",
+                cursor: "pointer"
+              }}
+            >
+              {pendingTx ? "Pending..." : "Record Contribution"}
+            </button>
+
+            <button
+              onClick={() => {
+                const desc = prompt("Enter attestation description:");
+                if (desc) handleTx("attested", "attest", [address, desc]);
+              }}
+              disabled={pendingTx}
+              style={{
+                marginTop: "1rem",
+                marginLeft: "1rem",
+                padding: "10px 16px",
+                fontSize: "16px",
+                cursor: "pointer"
+              }}
+            >
+              {pendingTx ? "Pending..." : "Attest User"}
+            </button>
+
+            <h2 style={{ marginTop: "2rem" }}>Your Attestations</h2>
+
+            {attestations.length === 0 ? (
+              <p>No attestations found.</p>
+            ) : (
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                {attestations.map((a, i) => (
+                  <li
+                    key={i}
+                    style={{
+                      marginBottom: "1rem",
+                      border: "1px solid #ccc",
+                      padding: "10px",
+                      borderRadius: "8px"
+                    }}
+                  >
+                    <p>
+                      <strong>Issuer:</strong> {a.issuer}
+                    </p>
+                    <p>
+                      <strong>Description:</strong> {a.description}
+                    </p>
+                    <p>
+                      <strong>Timestamp:</strong>{" "}
+                      {new Date(a.timestamp * 1000).toLocaleString()}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <h2 style={{ marginTop: "2rem" }}>Your Badges</h2>
+
+            {badges.length === 0 ? (
+              <p>No badges earned yet.</p>
+            ) : (
+              <ul style={{ listStyle: "none", padding: 0 }}>
+                {badges.map((b, i) => (
+                  <li
+                    key={i}
+                    style={{
+                      marginBottom: "0.5rem",
+                      padding: "6px 10px",
+                      border: "1px solid #ccc",
+                      borderRadius: "6px"
+                    }}
+                  >
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <button
+              onClick={disconnect}
+              style={{
+                marginTop: "1rem",
+                padding: "8px 14px",
+                fontSize: "14px",
+                cursor: "pointer",
+                background: "#eee"
+              }}
+            >
+              Disconnect
+            </button>
+          </div>
+        )}
+      </main>
+    </>
   );
 }
