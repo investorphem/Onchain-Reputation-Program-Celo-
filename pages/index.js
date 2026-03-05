@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useAccount, useConnect, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -23,11 +23,9 @@ const ATTESTED_ABI = [
 
 const SOULBOUND_ABI = [
   "function mintBadge(address user,string badgeName)",
-  "function getBadges(address user) view returns (string[])",
-  "function MINTER_ROLE() view returns (bytes32)"
+  "function getBadges(address user) view returns (string[])"
 ];
 
-// Reputation thresholds for automatic badges
 const BADGE_THRESHOLDS = [
   { points: 10, badge: "Bronze Contributor" },
   { points: 25, badge: "Silver Contributor" },
@@ -35,39 +33,25 @@ const BADGE_THRESHOLDS = [
 ];
 
 export default function Home() {
+
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
-  const { chain } = useNetwork();
-  const { switchNetwork } = useSwitchNetwork();
 
   const [score, setScore] = useState(0);
   const [attestations, setAttestations] = useState([]);
   const [badges, setBadges] = useState([]);
   const [pendingTx, setPendingTx] = useState(false);
 
-  // Check and switch network if needed
-  const NETWORK_ID = 44787; // Celo Alfajores
-
-  useEffect(() => {
-    if (isConnected && chain?.id !== NETWORK_ID && switchNetwork) {
-      switchNetwork(NETWORK_ID);
-    }
-  }, [isConnected, chain, switchNetwork]);
-
   // Fetch reputation
   useEffect(() => {
     if (!isConnected || !window.ethereum) return;
 
     const fetchReputation = async () => {
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(REPUTATION_ADDRESS, REPUTATION_ABI, provider);
-        const v = await contract.getReputation(address);
-        setScore(Number(v));
-      } catch (err) {
-        console.error("Failed to fetch reputation:", err);
-      }
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(REPUTATION_ADDRESS, REPUTATION_ABI, provider);
+      const v = await contract.getReputation(address);
+      setScore(Number(v));
     };
 
     fetchReputation();
@@ -78,14 +62,10 @@ export default function Home() {
     if (!isConnected || !window.ethereum) return;
 
     const fetchAttestations = async () => {
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(ATTESTED_ADDRESS, ATTESTED_ABI, provider);
-        const data = await contract.getAttestations(address);
-        setAttestations(data);
-      } catch (err) {
-        console.error("Failed to fetch attestations:", err);
-      }
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(ATTESTED_ADDRESS, ATTESTED_ABI, provider);
+      const data = await contract.getAttestations(address);
+      setAttestations(data);
     };
 
     fetchAttestations();
@@ -96,57 +76,50 @@ export default function Home() {
     if (!isConnected || !window.ethereum) return;
 
     const fetchBadges = async () => {
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const contract = new ethers.Contract(SOULBOUND_ADDRESS, SOULBOUND_ABI, provider);
-        const data = await contract.getBadges(address);
-        setBadges(data);
-      } catch (err) {
-        console.error("Failed to fetch badges:", err);
-      }
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const contract = new ethers.Contract(SOULBOUND_ADDRESS, SOULBOUND_ABI, provider);
+      const data = await contract.getBadges(address);
+      setBadges(data);
     };
 
     fetchBadges();
   }, [isConnected, address]);
 
-  // Auto-mint badges based on reputation thresholds
+  // Auto mint badges
   useEffect(() => {
     if (!isConnected || !window.ethereum || score === 0) return;
 
     const mintEligibleBadges = async () => {
-      try {
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        const signer = await provider.getSigner();
-        const contract = new ethers.Contract(SOULBOUND_ADDRESS, SOULBOUND_ABI, signer);
 
-        for (const threshold of BADGE_THRESHOLDS) {
-          if (score >= threshold.points && !badges.includes(threshold.badge)) {
-            setPendingTx(true);
+      for (const threshold of BADGE_THRESHOLDS) {
 
-            await sendTrackedTx({
-              contractName: "soulbound",
-              abi: SOULBOUND_ABI,
-              functionName: "mintBadge",
-              args: [address, threshold.badge]
-            });
+        if (score >= threshold.points && !badges.includes(threshold.badge)) {
 
-            setPendingTx(false);
-          }
+          setPendingTx(true);
+
+          await sendTrackedTx({
+            contractName: "soulbound",
+            abi: SOULBOUND_ABI,
+            functionName: "mintBadge",
+            args: [address, threshold.badge]
+          });
+
+          setPendingTx(false);
         }
-      } catch (err) {
-        console.error("Failed to auto-mint badges:", err);
-        setPendingTx(false);
       }
     };
 
     mintEligibleBadges();
+
   }, [score, badges, isConnected, address]);
 
-  // General transaction handler
+  // Transaction handler
   const handleTx = async (contractName, functionName, args) => {
+
     setPendingTx(true);
 
     try {
+
       await sendTrackedTx({
         contractName,
         abi: contractName === "reputation" ? REPUTATION_ABI : ATTESTED_ABI,
@@ -154,163 +127,114 @@ export default function Home() {
         args
       });
 
-      alert(`${functionName} executed + Divvi tracked!`);
-      setPendingTx(false);
+      alert("Transaction successful!");
       window.location.reload();
+
     } catch (err) {
+
       console.error(err);
-      setPendingTx(false);
       alert("Transaction failed");
+
     }
+
+    setPendingTx(false);
   };
 
   return (
     <>
       <Head>
+
         <title>Onchain Reputation Dashboard</title>
 
-        {/* Talent Protocol Verification */}
         <meta
           name="talentapp:project_verification"
           content="b7469046f8f4698a34a4a86aaeb82202b0be2c8d613507f63f4f9dcad239b0a83d1302d501095f669a3ac1b59df0074a24eb50689e095961a0dc4ae672457cbe"
         />
 
-        {/* Social preview */}
         <meta property="og:title" content="Onchain Reputation Dashboard" />
-        <meta
-          property="og:description"
-          content="Track reputation, attest users, and earn soulbound badges onchain."
-        />
+        <meta property="og:description" content="Track reputation, attest users, and earn soulbound badges onchain." />
         <meta property="og:image" content="/preview.png" />
+
       </Head>
 
       <main style={{ padding: "2rem", textAlign: "center" }}>
+
         <h1>Onchain Reputation Dashboard</h1>
 
         {!isConnected ? (
           <>
-            <p>Please connect your wallet to view your dashboard.</p>
+            <p>Connect wallet to continue</p>
 
             <button
               onClick={() => connect({ connector: injected() })}
-              style={{
-                padding: "10px 16px",
-                fontSize: "16px",
-                cursor: "pointer"
-              }}
+              style={{ padding: "10px 16px", fontSize: "16px" }}
             >
               Connect Wallet
             </button>
           </>
         ) : (
-          <div style={{ marginTop: "1rem" }}>
-            <p>
-              <strong>Wallet:</strong> {address}
-            </p>
 
-            <p>
-              <strong>Reputation Score:</strong> {score}
-            </p>
+          <div>
+
+            <p><strong>Wallet:</strong> {address}</p>
+            <p><strong>Reputation:</strong> {score}</p>
 
             <button
-              onClick={() =>
-                handleTx("reputation", "increaseReputation", [address, 10])
-              }
+              onClick={() => handleTx("reputation","increaseReputation",[address,10])}
               disabled={pendingTx}
-              style={{
-                marginTop: "1rem",
-                padding: "10px 16px",
-                fontSize: "16px",
-                cursor: "pointer"
-              }}
+              style={{ padding: "10px 16px", marginTop: "10px" }}
             >
               {pendingTx ? "Pending..." : "Record Contribution"}
             </button>
 
             <button
               onClick={() => {
-                const desc = prompt("Enter attestation description:");
-                if (desc) handleTx("attested", "attest", [address, desc]);
+                const desc = prompt("Enter attestation:");
+                if (desc) handleTx("attested","attest",[address,desc]);
               }}
               disabled={pendingTx}
-              style={{
-                marginTop: "1rem",
-                marginLeft: "1rem",
-                padding: "10px 16px",
-                fontSize: "16px",
-                cursor: "pointer"
-              }}
+              style={{ padding: "10px 16px", marginLeft: "10px" }}
             >
-              {pendingTx ? "Pending..." : "Attest User"}
+              Attest User
             </button>
 
-            <h2 style={{ marginTop: "2rem" }}>Your Attestations</h2>
+            <h2 style={{ marginTop: "40px" }}>Attestations</h2>
 
             {attestations.length === 0 ? (
-              <p>No attestations found.</p>
+              <p>No attestations</p>
             ) : (
               <ul style={{ listStyle: "none", padding: 0 }}>
-                {attestations.map((a, i) => (
-                  <li
-                    key={i}
-                    style={{
-                      marginBottom: "1rem",
-                      border: "1px solid #ccc",
-                      padding: "10px",
-                      borderRadius: "8px"
-                    }}
-                  >
-                    <p>
-                      <strong>Issuer:</strong> {a.issuer}
-                    </p>
-                    <p>
-                      <strong>Description:</strong> {a.description}
-                    </p>
-                    <p>
-                      <strong>Timestamp:</strong>{" "}
-                      {new Date(a.timestamp * 1000).toLocaleString()}
-                    </p>
+                {attestations.map((a,i)=>(
+                  <li key={i}>
+                    <p><strong>Issuer:</strong> {a.issuer}</p>
+                    <p>{a.description}</p>
                   </li>
                 ))}
               </ul>
             )}
 
-            <h2 style={{ marginTop: "2rem" }}>Your Badges</h2>
+            <h2 style={{ marginTop: "40px" }}>Badges</h2>
 
             {badges.length === 0 ? (
-              <p>No badges earned yet.</p>
+              <p>No badges yet</p>
             ) : (
-              <ul style={{ listStyle: "none", padding: 0 }}>
-                {badges.map((b, i) => (
-                  <li
-                    key={i}
-                    style={{
-                      marginBottom: "0.5rem",
-                      padding: "6px 10px",
-                      border: "1px solid #ccc",
-                      borderRadius: "6px"
-                    }}
-                  >
-                    {b}
-                  </li>
+              <ul style={{ listStyle: "none" }}>
+                {badges.map((b,i)=>(
+                  <li key={i}>{b}</li>
                 ))}
               </ul>
             )}
 
             <button
               onClick={disconnect}
-              style={{
-                marginTop: "1rem",
-                padding: "8px 14px",
-                fontSize: "14px",
-                cursor: "pointer",
-                background: "#eee"
-              }}
+              style={{ marginTop: "20px" }}
             >
               Disconnect
             </button>
+
           </div>
         )}
+
       </main>
     </>
   );
