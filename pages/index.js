@@ -18,7 +18,7 @@ const REPUTATION_ABI = [
 
 const ATTESTED_ABI = [
   "function attest(address user,string description)"
-  "function getAttestations(address user) view returns (tuple(address issuer,string description,uint256 timestamp)[])
+  "function getAttestations(address user) view returns (tuple(address issuer,string description,uint256 timestamp)[]
 ];
 
 const SOULBOUND_ABI = [
