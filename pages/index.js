@@ -24,7 +24,7 @@ const ATTESTED_ABI = [
 const SOULBOUND_ABI = [
   "function mintBadge(address user,string badgeName)"
   "function getBadges(address user) view returns (string[])"
-];
+]
 
 const BADGE_THRESHOLDS = [
   { points: 10, badge: "Bronze Contributor" },
