@@ -12,7 +12,7 @@ const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_A
 // ABIs
 const REPUTATION_ABI = [
   "function getReputation(address) view returns (uint256)"
-  "function increaseReputation(address user,uint256 amount
+  "function increaseReputation(address user,uint256 amoun
 ];
 
 const ATTESTED_ABI = [
