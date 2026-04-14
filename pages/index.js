@@ -28,7 +28,7 @@ const SOULBOUND_ABI = [
 const BADGE_THRESHOLDS = 
   { points: 10, badge: "Bronze Contributor" }
   { points: 25, badge: "Silver Contributo
-  { points: 50, badge: "Gold Contribut
+  { points: 50, badge: "Gold Contribu
 
 
 export default function Home() {
