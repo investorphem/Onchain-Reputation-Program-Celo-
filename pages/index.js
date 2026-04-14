@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
-// Environment variabl
+// Environment variab
 const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_AD
 const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_ADDRE
 const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_ADDR
