@@ -34,7 +34,7 @@ const BADGE_THRESHOLDS =
 export default function Home() {
 
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect();
+  const { connect } = useConnect()
   const { disconnect } = useDisconnect();
 
   const [score, setScore] = useState(0);
