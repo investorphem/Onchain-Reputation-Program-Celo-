@@ -40,7 +40,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [attestations, setAttestations] = useState([])
   const [badges, setBadges] = useState([]);
-  const [pendingTx, setPendingTx] = useState(false);
+  const [pendingTx, setPendingTx] = useState(false)
 
   // Fetch reputation
   useEffect(() => {
