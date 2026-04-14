@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
 // Environment variab
-const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_
+const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION
 const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_AD
 const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_
 // ABIs
