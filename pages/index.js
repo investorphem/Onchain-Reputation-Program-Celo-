@@ -38,7 +38,7 @@ export default function Home() {
   const { disconnect } = useDisconnect();
 
   const [score, setScore] = useState(0);
-  const [attestations, setAttestations] = useState([]);
+  const [attestations, setAttestations] = useState([])
   const [badges, setBadges] = useState([]);
   const [pendingTx, setPendingTx] = useState(false);
 
