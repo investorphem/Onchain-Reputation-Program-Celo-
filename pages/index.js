@@ -26,7 +26,7 @@ const SOULBOUND_ABI = [
   "function getBadges(address user) view returns (string[])"
 ]
 
-const BADGE_THRESHOLDS = [
+const BADGE_THRESHOLDS = 
   { points: 10, badge: "Bronze Contributor" },
   { points: 25, badge: "Silver Contributor" },
   { points: 50, badge: "Gold Contributor" 
