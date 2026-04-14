@@ -7,7 +7,7 @@ import { sendTrackedTx } from "../lib/sendTrackedTx";
 
 // Environment variab
 const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_AD
-const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_ADDR
+const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_ADD
 const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_ADD
 
 // ABIs
