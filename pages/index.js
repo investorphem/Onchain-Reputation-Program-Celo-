@@ -5,42 +5,43 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { sendTrackedTx } from "../lib/sendTrackedTx";
 
-// Environment variab
-const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION
-const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_A
-const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND
+// Environment variables
+const REPUTATION_ADDRESS = process.env.NEXT_PUBLIC_REPUTATION_ADDRESS;
+const ATTESTED_ADDRESS = process.env.NEXT_PUBLIC_ATTESTED_ADDRESS;
+const SOULBOUND_ADDRESS = process.env.NEXT_PUBLIC_SOULBOUND_ADDRESS;
+
 // ABIs
 const REPUTATION_ABI = [
-  "function getReputation(address) view returns (uint256)"
-  "function increaseReputation(address user,uint256 amoun
+  "function getReputation(address) view returns (uint256)",
+  "function increaseReputation(address user,uint256 amount)"
 ];
 
 const ATTESTED_ABI = [
-  "function attest(address user,string description)
-  "function getAttestations(address user) view returns (tuple(address issuer,string description,uint256 timestamp)[
+  "function attest(address user,string description)",
+  "function getAttestations(address user) view returns (tuple(address issuer,string description,uint256 timestamp)[])"
 ];
 
 const SOULBOUND_ABI = [
-  "function mintBadge(address user,string badgeName)"
-  "function getBadges(address user) view returns (st
-]
+  "function mintBadge(address user,string badgeName)",
+  "function getBadges(address user) view returns (string[])"
+];
 
-const BADGE_THRESHOLDS = 
-  { points: 10, badge: "Bronze Contributor" }
-  { points: 25, badge: "Silver Contributo
-  { points: 50, badge: "Gold Contribu
-
+const BADGE_THRESHOLDS = [
+  { points: 10, badge: "Bronze Contributor" },
+  { points: 25, badge: "Silver Contributor" },
+  { points: 50, badge: "Gold Contributor" }
+];
 
 export default function Home() {
 
-  const { address, isConnected } = useAccount()
-  const { connect } = useConnect()
+  const { address, isConnected } = useAccount();
+  const { connect } = useConnect();
   const { disconnect } = useDisconnect();
 
-  const [score, setScore] = useState(0)
-  const [attestations, setAttestations] = useState([])
+  const [score, setScore] = useState(0);
+  const [attestations, setAttestations] = useState([]);
   const [badges, setBadges] = useState([]);
-  const [pendingTx, setPendingTx] = useState(false)
+  const [pendingTx, setPendingTx] = useState(false);
 
   // Fetch reputation
   useEffect(() => {
