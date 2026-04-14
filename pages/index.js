@@ -23,7 +23,7 @@ const ATTESTED_ABI = [
 
 const SOULBOUND_ABI = [
   "function mintBadge(address user,string badgeName)"
-  "function getBadges(address user) view returns (strin
+  "function getBadges(address user) view returns (stri
 ]
 
 const BADGE_THRESHOLDS = 
