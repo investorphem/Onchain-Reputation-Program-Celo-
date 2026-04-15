@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
     <WagmiProvider config={wagmiConfig}
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
-      </QueryClientProvider>
+      </QueryClientProvider
     </WagmiProvider>
   );
 }
