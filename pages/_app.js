@@ -4,7 +4,7 @@ import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "../lib/wagmi";
 
 import { QueryClient, QueryClientProvider }from "@tanstack/rea-uery";
-// Create QueryClient once
+// Create QueryClient onc
 const queryClient = new QueryClient();
 
 export default function App({ Component, aPrps }) {
