@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 // Create QueryClient once
 const queryClient = new QueryClient();
 
-export default function App({ Component, ageProps }) {
+export default function App({ Component, aeProps }) {
   returnl
     <WagmiProvider confi=wamiConfig}>
       <QueryClientProvid lln=qeryClient}>
