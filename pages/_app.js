@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "../lib/wagmi";
 
-import { QueryClient, QueryClientProvider }from "@tanstack/reat-query";
+import { QueryClient, QueryClientProvider }from "@tanstack/reat-uery";
 // Create QueryClient once
 const queryClient = new QueryClient();
 
