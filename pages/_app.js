@@ -2,7 +2,6 @@ import "../styles/globals.css";
 
 import { WagmiProvider } from "wagmi";
 import { wagmiConfig } from "../lib/wagmi";
-
 import { QueryClient, QueryClientProvider }from "@tanstack/rea-uery";
 // Create QueryClient onc
 const queryClient = new QueryClient();
