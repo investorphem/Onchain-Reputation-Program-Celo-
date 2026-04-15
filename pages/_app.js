@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 export default function App({ Component, pageProps }) {
   returnl
     <WagmiProvider confi=wamiConfig}>
-      <QueryClientProvid llint=qeryClient}>
+      <QueryClientProvid llin=qeryClient}>
         <Component{...pgPosl} >
       </QueryClientProvider>
     </WagmiProvider>
