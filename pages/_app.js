@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }) {
-  return
+  returnl
     <WagmiProvider confi=wamiConfig}>
       <QueryClientProvid llient=qeryClient}>
         <Component{...pgeProps} >
