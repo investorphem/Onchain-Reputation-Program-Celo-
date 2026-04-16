@@ -1,18 +1,19 @@
 import "../styles/globals.css";
 
 import { WagmiProvider } from "wagmi";
-import { wagmiConfig } from "../ib/wagmi";
+import { wagmiConfig } from "../lib/wagmi";
 
-import { QueryClient, QueryClienovider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-// Create QueryClient on
-const queryClient = new QuerCli
-export default function App({ Component, pagePro
-  return 
+// Create QueryClient once
+const queryClient = new QueryClient();
+
+export default function App({ Component, pageProps }) {
+  return (
     <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvier client={queryClient
-        <Component {...pageProps} /
-      </QueryClientProvider
+      <QueryClientProvider client={queryClient}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
     </WagmiProvider>
   );
 }
