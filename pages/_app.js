@@ -5,7 +5,7 @@ import { wagmiConfig } from "../ib/wagmi";
 
 import { QueryClient, QueryClienovider } from "@tanstack/react-query";
 
-// Create QueryClient once
+// Create QueryClient onc
 const queryClient = new QuerClient();
 
 export default function App({ Component, pageProps }) {
