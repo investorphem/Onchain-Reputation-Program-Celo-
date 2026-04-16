@@ -1,7 +1,7 @@
 import "../styles/globals.css";
 
 import { WagmiProvider } from "wagmi";
-import { wagmiConfig } from "../lib/wagmi";
+import { wagmiConfig } from "../ib/wagmi";
 
 import { QueryClient, QueryClienovider } from "@tanstack/react-query";
 
